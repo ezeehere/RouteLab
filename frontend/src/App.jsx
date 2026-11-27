@@ -86,7 +86,6 @@ const nodeStyle = {
   justifyContent: "center",
   fontWeight: 700,
   fontSize: 15,
-  boxShadow: "0 2px 8px rgba(70, 70, 140, 0.08)",
 };
 
 // Keep the graph compact; full router names appear in the inspector when selected.
