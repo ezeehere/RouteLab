@@ -71,25 +71,6 @@ The project combines graph theory concepts with practical full-stack development
 - Persist graph and failure state using browser LocalStorage.
 - Validate graph data before importing or modifying the network.
 
-## Screenshots
-
-### Network Visualization
-
-![RouteLab Network Graph](docs/screenshots/network-graph.png)
-
-### Shortest-Path Analysis
-
-![RouteLab Shortest Path](docs/screenshots/shortest-path.png)
-
-### Critical Network Analysis
-
-![RouteLab Critical Analysis](docs/screenshots/critical-analysis.png)
-
-### Failure Simulation and Recovery
-
-![RouteLab Failure Simulation](docs/screenshots/failure-recovery.png)
-
-> Replace the image paths above with screenshots saved in your repository under `docs/screenshots/`. These are suggested filenames; add the actual screenshot files before publishing.
 
 ## System Architecture
 
