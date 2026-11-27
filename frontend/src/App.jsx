@@ -12,7 +12,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import "./App.css";
 
-const STORAGE_KEY = "routelab-network-v1";
+const STORAGE_KEY = "routelab-network-v2";
 
 // Display names only: graph IDs, edge endpoints, and API payloads remain unchanged.
 const ROUTER_NAMES = {
@@ -89,49 +89,102 @@ const nodeStyle = {
 };
 
 // Keep the graph compact; full router names appear in the inspector when selected.
-const initialNodes = "ABCDEFGHIJKLMNOPQRST".split("").map((id, index) => ({
+/*
+ * Default demonstration topology: a campus/organization network.
+ * IDs A-T are intentionally preserved for API compatibility.
+ * Positions are grouped into operational zones around two backbone routers.
+ */
+const DEFAULT_LAYOUT = {
+  // Core / network operations
+  A: { x: 790, y: 330 }, // Administrative Block — core
+  E: { x: 790, y: 500 }, // Computer Centre — core
+
+  // Academic and research zone
+  B: { x: 300, y: 130 },
+  C: { x: 470, y: 130 },
+  D: { x: 640, y: 130 },
+  F: { x: 300, y: 285 },
+  G: { x: 470, y: 285 },
+  H: { x: 640, y: 285 },
+  I: { x: 470, y: 440 },
+  J: { x: 300, y: 440 },
+
+  // Residential zone
+  K: { x: 1120, y: 150 },
+  L: { x: 1300, y: 150 },
+  M: { x: 1120, y: 315 },
+  N: { x: 1300, y: 315 },
+
+  // Student services and campus facilities
+  O: { x: 1120, y: 500 },
+  P: { x: 1300, y: 500 },
+  Q: { x: 1120, y: 665 },
+  R: { x: 1300, y: 665 },
+
+  // Perimeter / access
+  S: { x: 790, y: 760 },
+  T: { x: 790, y: 900 },
+};
+
+const initialNodes = "ABCDEFGHIJKLMNOPQRST".split("").map((id) => ({
   id,
-  position: {
-    x: 100 + (index % 5) * 150,
-    y: 80 + Math.floor(index / 5) * 125,
-  },
+  position: DEFAULT_LAYOUT[id],
   data: { label: id },
   draggable: true,
   style: { ...nodeStyle },
 }));
 
+/*
+ * 37 weighted, bidirectional links.
+ * A and E form the backbone; departmental clusters have local redundancy
+ * and multiple uplinks so failure analysis produces meaningful results.
+ * Weights are illustrative simulated delays, not measured campus data.
+ */
 const initialEdges = [
-  { id: "AB", source: "A", target: "B", label: "4" },
-  { id: "BC", source: "B", target: "C", label: "3" },
-  { id: "CD", source: "C", target: "D", label: "6" },
-  { id: "DE", source: "D", target: "E", label: "2" },
-  { id: "EF", source: "E", target: "F", label: "5" },
-  { id: "FG", source: "F", target: "G", label: "3" },
-  { id: "GH", source: "G", target: "H", label: "4" },
-  { id: "HI", source: "H", target: "I", label: "7" },
+  // Backbone
+  { id: "AE", source: "A", target: "E", label: "2" },
+  { id: "AS", source: "A", target: "S", label: "4" },
+  { id: "ET", source: "E", target: "T", label: "3" },
+
+  // Academic and research cluster
+  { id: "AB", source: "A", target: "B", label: "3" },
+  { id: "BC", source: "B", target: "C", label: "2" },
+  { id: "CD", source: "C", target: "D", label: "2" },
+  { id: "BF", source: "B", target: "F", label: "3" },
+  { id: "CG", source: "C", target: "G", label: "2" },
+  { id: "DH", source: "D", target: "H", label: "3" },
+  { id: "FG", source: "F", target: "G", label: "2" },
+  { id: "GH", source: "G", target: "H", label: "2" },
+  { id: "FI", source: "F", target: "I", label: "3" },
+  { id: "GJ", source: "G", target: "J", label: "3" },
   { id: "IJ", source: "I", target: "J", label: "2" },
-  { id: "JA", source: "J", target: "A", label: "8" },
-  { id: "AC", source: "A", target: "C", label: "2" },
-  { id: "CE", source: "C", target: "E", label: "4" },
-  { id: "EG", source: "E", target: "G", label: "2" },
-  { id: "GI", source: "G", target: "I", label: "3" },
-  { id: "BH", source: "B", target: "H", label: "9" },
-  { id: "KL", source: "K", target: "L", label: "3" },
-  { id: "LM", source: "L", target: "M", label: "5" },
+  { id: "IE", source: "I", target: "E", label: "4" },
+  { id: "HE", source: "H", target: "E", label: "4" },
+
+  // Residential cluster
+  { id: "AK", source: "A", target: "K", label: "4" },
+  { id: "KL", source: "K", target: "L", label: "2" },
+  { id: "KM", source: "K", target: "M", label: "3" },
+  { id: "LN", source: "L", target: "N", label: "3" },
   { id: "MN", source: "M", target: "N", label: "2" },
-  { id: "NO", source: "N", target: "O", label: "4" },
-  { id: "OP", source: "O", target: "P", label: "6" },
-  { id: "PQ", source: "P", target: "Q", label: "3" },
-  { id: "QR", source: "Q", target: "R", label: "5" },
-  { id: "RS", source: "R", target: "S", label: "2" },
-  { id: "ST", source: "S", target: "T", label: "4" },
-  { id: "TK", source: "T", target: "K", label: "7" },
-  { id: "KM", source: "K", target: "M", label: "4" },
-  { id: "MO", source: "M", target: "O", label: "3" },
-  { id: "OQ", source: "O", target: "Q", label: "2" },
+  { id: "ME", source: "M", target: "E", label: "4" },
+  { id: "NE", source: "N", target: "E", label: "5" },
+
+  // Campus services and facilities cluster
+  { id: "EO", source: "E", target: "O", label: "3" },
+  { id: "OP", source: "O", target: "P", label: "2" },
+  { id: "OQ", source: "O", target: "Q", label: "3" },
+  { id: "PR", source: "P", target: "R", label: "2" },
+  { id: "QR", source: "Q", target: "R", label: "2" },
   { id: "QS", source: "Q", target: "S", label: "4" },
-  { id: "LN", source: "L", target: "N", label: "6" },
-  { id: "JK", source: "J", target: "K", label: "5" },
+  { id: "RS", source: "R", target: "S", label: "3" },
+
+  // Perimeter / security / gateway redundancy
+  { id: "ST", source: "S", target: "T", label: "2" },
+  { id: "AT", source: "A", target: "T", label: "7" },
+  { id: "ES", source: "E", target: "S", label: "3" },
+  { id: "JT", source: "J", target: "T", label: "6" },
+  { id: "DO", source: "D", target: "O", label: "7" },
 ].map((edge) => ({ ...edge, ...edgeBase }));
 
 function createInitialData() {
