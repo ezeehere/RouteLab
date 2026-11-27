@@ -12,7 +12,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://routelab-09u.pages.dev",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -156,3 +159,8 @@ def analyze_network(request: NetworkRequest):
         "is_connected": nx.is_connected(graph) if graph.number_of_nodes() else True,
         "recovery_candidates": recovery_candidates
     }
+
+# Cloudflare Python Workers ASGI entrypoint
+from workers import asgi
+
+Default = asgi.entrypoint(app)
