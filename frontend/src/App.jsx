@@ -39,7 +39,7 @@ const ROUTER_NAMES = {
 };
 
 function routerLabel(id) {
-  return ROUTER_NAMES[id] ? `${id} — ${ROUTER_NAMES[id]}` : id;
+  return ROUTER_NAMES[id] ? `${id} : ${ROUTER_NAMES[id]}` : id;
 }
 
 /* ---------- graph look (kept in one place) ---------- */
