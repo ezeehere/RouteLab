@@ -1,4 +1,4 @@
-# RouteLab — Network Failure Analysis & Recovery Simulation
+# RouteLab : Network Failure Analysis & Recovery Simulation
 
 **An interactive graph-theory-based network simulator for shortest-path analysis, connectivity testing, failure simulation, and recovery planning.**
 
@@ -159,11 +159,11 @@ RouteLab demonstrates the following concepts:
 
 The application uses NetworkX for its core graph operations:
 
-- `nx.dijkstra_path()` — calculates the shortest path.
-- `nx.dijkstra_path_length()` — calculates the total path weight.
-- `nx.connected_components()` — identifies connected components.
-- `nx.bridges()` — identifies bridge edges.
-- `nx.articulation_points()` — identifies articulation points.
+- `nx.dijkstra_path()` : calculates the shortest path.
+- `nx.dijkstra_path_length()` : calculates the total path weight.
+- `nx.connected_components()` : identifies connected components.
+- `nx.bridges()` : identifies bridge edges.
+- `nx.articulation_points()` : identifies articulation points.
 
 The backend also implements graph construction, request validation, response formatting, and a degree-based recovery-candidate heuristic.
 
