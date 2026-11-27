@@ -618,7 +618,7 @@ function App() {
     setShortestPath(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/shortest-path", {
+      const response = await fetch("https://routelab-api.onrender.com/shortest-path", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...payload(), source, target }),
@@ -645,7 +645,7 @@ function App() {
     setFocusComp(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/analyze-network", {
+      const response = await fetch("https://routelab-api.onrender.com/analyze-network", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload()),
